@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import com.kh.somoim.server.process.ServerProcess;
 
-public class ServerConnector {
+public class ServerConnector { 
 
 	ServerSocket serverSocket;
 	private Socket socket;
