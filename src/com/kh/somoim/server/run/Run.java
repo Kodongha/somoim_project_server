@@ -7,7 +7,7 @@ public class Run {
 	public static void main(String[] args) {
 		
 		new ServerConnector().serverStart();
-		
+		System.out.println("aa");
 	}
 	
 }
