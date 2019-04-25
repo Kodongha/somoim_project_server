@@ -73,20 +73,22 @@ public class ServerConnector {
 				String mode = (String)ois.readObject();
 				System.out.println("mode :" + mode);
 
-				Object clientObejct = ois.readObject();
-				System.out.println("clientObejct :" + clientObejct.toString());
-				
+				Object requestObject = ois.readObject();
+				System.out.println("clientObejct :" + requestObject.toString());
+				/*=======================================================*/
+				/*=======================================================*/
 				switch (mode) {
 				case "LoginDAO.checkAccount":
-					oos.writeObject(process.checkAccount(clientObejct));
+					oos.writeObject(process.checkAccount(requestObject));
 					break;
 
 				case "HomeDAO.getMyClubList":
-					oos.writeObject(process.getMyClubList(clientObejct));
+					oos.writeObject(process.getMyClubList(requestObject));
 				default:
 					break;
 				}
-				
+				/*=======================================================*/
+				/*=======================================================*/
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
