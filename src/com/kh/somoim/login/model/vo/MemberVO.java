@@ -2,7 +2,7 @@ package com.kh.somoim.login.model.vo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-                      
+                         
 public class MemberVO implements Serializable{
 
 	/**
