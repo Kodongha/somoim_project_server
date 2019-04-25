@@ -81,6 +81,8 @@ public class ServerConnector {
 					oos.writeObject(process.checkAccount(clientObejct));
 					break;
 
+				case "HomeDAO.getMyClubList":
+					oos.writeObject(process.getMyClubList(clientObejct));
 				default:
 					break;
 				}

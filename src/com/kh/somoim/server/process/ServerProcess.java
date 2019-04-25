@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.kh.somoim.login.model.vo.MemberVO;
 
@@ -20,6 +21,7 @@ public class ServerProcess {
 		MemberVO requestMemberVO = (MemberVO)Obj;
 		String id = requestMemberVO.getId();
 		String password = requestMemberVO.getPassword();
+		ArrayList<String> favoriteList = new ArrayList<String>();
 
 		System.out.println("id:" + id);
 		System.out.println("password:" + password);
@@ -29,21 +31,26 @@ public class ServerProcess {
 		try {
 			br = new BufferedReader(new FileReader("member.txt"));
 			String[] tempStringArray; 
+			String[] temp2StringArray; 
 			String line = "";
 			while((line = br.readLine()) != null) {
 				System.out.println(line);
 				tempStringArray = line.split("§§");
-				memberVO.setId(tempStringArray[0]);
-				memberVO.setBirth(tempStringArray[1]);
-				memberVO.setPhoneNumber(tempStringArray[2]);
-				memberVO.setEmail(tempStringArray[3]);
-				memberVO.setPassword(tempStringArray[4]);
-				memberVO.setName(tempStringArray[5]);
-				memberVO.setGender(tempStringArray[6]);
-				memberVO.setAddress(tempStringArray[7]);
-				// ArrayList로 할건지 String 배열로 할건지 결정
-
-				//userVO.setAddress(tempStringArray[8]);
+				memberVO.setUserNumber(Integer.parseInt(tempStringArray[0]));
+				memberVO.setId(tempStringArray[1]);
+				memberVO.setBirth(tempStringArray[2]);
+				memberVO.setPhoneNumber(tempStringArray[3]);
+				memberVO.setEmail(tempStringArray[4]);
+				memberVO.setPassword(tempStringArray[5]);
+				memberVO.setName(tempStringArray[6]);
+				memberVO.setGender(tempStringArray[7]);
+				memberVO.setAddress(tempStringArray[8]);
+				memberVO.setPoint(Integer.parseInt(tempStringArray[9]));
+				temp2StringArray = tempStringArray[10].split(",");
+				for(String favorite : temp2StringArray) {
+					favoriteList.add(favorite);
+				}
+				memberVO.setFavorite(favoriteList);
 
 				System.out.println(memberVO.toString());
 				if(id.equals(memberVO.getId()) && password.equals(memberVO.getPassword())) {
@@ -57,11 +64,13 @@ public class ServerProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		memberVO = null;
-		
 		return memberVO;
+	}
 
+	public Object getMyClubList(Object clientObejct) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
