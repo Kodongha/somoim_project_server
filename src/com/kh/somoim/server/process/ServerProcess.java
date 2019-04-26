@@ -25,8 +25,8 @@ public class ServerProcess {
 		String id = requestMemberVO.getId();
 		String password = requestMemberVO.getPassword();
 
-		System.out.println("id:" + id);
-		System.out.println("password:" + password);
+		System.out.println("Input id:" + id);
+		System.out.println("Input password:" + password);
 
 		MemberVO memberVO = new MemberVO();
 
@@ -38,7 +38,6 @@ public class ServerProcess {
 
 			String line = "";
 			while((line = br.readLine()) != null) {
-				System.out.println(line);
 				tempStringArray = line.split("§§");
 				memberVO.setUserNumber(Integer.parseInt(tempStringArray[0]));
 				memberVO.setId(tempStringArray[1]);
@@ -82,15 +81,13 @@ public class ServerProcess {
 
 		MemberVO requestMemberVO = (MemberVO)obj;
 		int userNumber = requestMemberVO.getUserNumber();
-		System.out.println("userNumber : " + userNumber);
-
 		ArrayList<ClubVO> myClubList = new ArrayList<ClubVO>();
+
 
 		try {
 			br = new BufferedReader(new FileReader("club.txt"));
 			String[] tempStringArray;
 			String[] temp2StringArray;
-			ArrayList<Integer> memberList = new ArrayList<Integer>();
 
 			int year = 0;
 			int month = 0;
@@ -101,7 +98,7 @@ public class ServerProcess {
 			String line = "";
 			while((line = br.readLine()) != null) {
 				ClubVO clubVO = new ClubVO();
-				System.out.println(line);
+				ArrayList<Integer> memberList = new ArrayList<Integer>();
 				myClubFlag = false;
 
 				tempStringArray = line.split("§§");
@@ -126,11 +123,12 @@ public class ServerProcess {
 					}
 					memberList.add(Integer.parseInt(memberNumber));
 				}
-				
+				clubVO.setMembersNumber(memberList);
 				if(myClubFlag) {
-					System.out.println(clubVO);
+					System.out.println("가입된 소모임 : " + clubVO);
 					myClubList.add(clubVO);
 				}
+				
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
