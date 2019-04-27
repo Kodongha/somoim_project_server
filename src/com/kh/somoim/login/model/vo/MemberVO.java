@@ -16,10 +16,10 @@ public class MemberVO implements Serializable{
 	private String email;       // email
 	private String password;    // password
 	private String name;        // name
-	private String gender;      // gender(ë‚¨/ì—¬)
-	private String address;     // address(ì„œìš¸,ê²½ê¸°ë„...)
-	private int point;     		// address(ì„œìš¸,ê²½ê¸°ë„...)
-	private ArrayList<String> favorite; // favorite(ê´€ì‹¬ì‚¬)
+	private String gender;      // gender(³²/¿©)
+	private String address;     // address(¼­¿ï,°æ±âµµ...)
+	private int point;     		// address(¼­¿ï,°æ±âµµ...)
+	private ArrayList<String> favorite; // favorite(°ü½É»ç)
 
 	public MemberVO() {
 		// TODO Auto-generated constructor stub
