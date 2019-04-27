@@ -9,7 +9,7 @@ public class ClubVO implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6712211978072546539L;
+	private static final long serialVersionUID = -3745333920152010375L;
 	private int clubNumber;			// 소모임 번호
 	private String name;			// 소모임 이름(중복 X)
 	private int clupMasterNumber ;	// 모임장
@@ -17,13 +17,14 @@ public class ClubVO implements Serializable{
 	private Date meetingDay;		// 다음 정모 일자
 	private String titleImagePath;	// 타이틀 사진 경로
 	private ArrayList<Integer> membersNumber;		// 맴버 목록
+	private String category;
 	
 	public ClubVO() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public ClubVO(int clubNumber, String name, int clupMasterNumber, String information, Date meetingDay,
-			String titleImagePath, ArrayList<Integer> membersNumber) {
+			String titleImagePath, ArrayList<Integer> membersNumber, String category) {
 		super();
 		this.clubNumber = clubNumber;
 		this.name = name;
@@ -32,6 +33,7 @@ public class ClubVO implements Serializable{
 		this.meetingDay = meetingDay;
 		this.titleImagePath = titleImagePath;
 		this.membersNumber = membersNumber;
+		this.category = category;
 	}
 
 	/**
@@ -132,6 +134,20 @@ public class ClubVO implements Serializable{
 		this.membersNumber = membersNumber;
 	}
 
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -139,7 +155,7 @@ public class ClubVO implements Serializable{
 	public String toString() {
 		return "ClubVO [clubNumber=" + clubNumber + ", name=" + name + ", clupMasterNumber=" + clupMasterNumber
 				+ ", information=" + information + ", meetingDay=" + meetingDay + ", titleImagePath=" + titleImagePath
-				+ ", membersNumber=" + membersNumber + "]";
+				+ ", membersNumber=" + membersNumber + ", category=" + category + "]";
 	}
 	
 }
