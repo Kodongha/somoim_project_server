@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import com.kh.somoim.server.process.ClubProcess;
 import com.kh.somoim.server.process.HomeProcess;
 import com.kh.somoim.server.process.LoginrProcess;
 import com.kh.somoim.server.process.RecommendProcess;
@@ -79,6 +80,7 @@ public class ServerConnector {
 			RecommendProcess recommendProcess = new RecommendProcess();
 			SettingProcess settingProcess = new SettingProcess();
 			SearchProcess searchProcess = new SearchProcess();
+			ClubProcess clubProcess = new ClubProcess(); 
 			
 			try {
 				ois = new ObjectInputStream(new DataInputStream(client.getInputStream()));
@@ -119,6 +121,10 @@ public class ServerConnector {
 					
 				case "SearchDAO.getStringSearchClubList":
 					oos.writeObject(searchProcess.getStringSearchClubList(requestObject));
+					break;
+					
+				case "ClubInfoDAO.getClubMemberList":
+					oos.writeObject(clubProcess.getClubMemberList(requestObject));
 					break;
 					
 				default:
