@@ -54,7 +54,9 @@ public class LoginrProcess {
 					favoriteList.add(favorite);
 				}
 				memberVO.setFavorite(favoriteList);
-
+				memberVO.setProfilePhotoPath(tempStringArray[11]);
+				
+				
 				if(id.equals(memberVO.getId()) && password.equals(memberVO.getPassword())) {
 					System.out.println("로그인 인증 완료 : " + memberVO.toString());
 					return memberVO;

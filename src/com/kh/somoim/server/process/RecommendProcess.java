@@ -15,7 +15,6 @@ import com.kh.somoim.login.model.vo.MemberVO;
 public class RecommendProcess {
 
 	private BufferedReader br;
-	private BufferedWriter bw;
 	
 	public Object getRecommendClubList(Object obj) {
 		// TODO Auto-generated method stub
@@ -69,10 +68,6 @@ public class RecommendProcess {
 				
 				temp2StringArray = tempStringArray[7].split(",");
 				
-				for(int i=0; i<myFavoriteList.size(); i++) {
-					
-				}
-				
 				for(String memberNumber : temp2StringArray) {
 					if(userNumber == Integer.parseInt(memberNumber)) {
 						myClubFlag = true;
@@ -92,6 +87,13 @@ public class RecommendProcess {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		System.out.println("recommendClubList:::"+recommendClubList);

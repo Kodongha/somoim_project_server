@@ -8,7 +8,7 @@ public class MemberVO implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3805317309781810549L;
+	private static final long serialVersionUID = -7445602364728522068L;
 	private int userNumber;		// user number		
 	private String id;          // id
 	private String birth;       // birth(yyyyMMdd)
@@ -20,13 +20,15 @@ public class MemberVO implements Serializable{
 	private String address;     // address(서울,경기도...)
 	private int point;     		// address(서울,경기도...)
 	private ArrayList<String> favorite; // favorite(관심사)
+	private String profilePhotoPath;	// 프로필 사진 경로
 
 	public MemberVO() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public MemberVO(int userNumber, String id, String birth, String phoneNumber, String email, String password,
-			String name, String gender, String address, int point, ArrayList<String> favorite) {
+			String name, String gender, String address, int point, ArrayList<String> favorite,
+			String profilePhotoPath) {
 		super();
 		this.userNumber = userNumber;
 		this.id = id;
@@ -39,6 +41,7 @@ public class MemberVO implements Serializable{
 		this.address = address;
 		this.point = point;
 		this.favorite = favorite;
+		this.profilePhotoPath = profilePhotoPath;
 	}
 
 	/**
@@ -196,10 +199,17 @@ public class MemberVO implements Serializable{
 	}
 
 	/**
-	 * @return the serialversionuid
+	 * @return the profilePhotoPath
 	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getProfilePhotoPath() {
+		return profilePhotoPath;
+	}
+
+	/**
+	 * @param profilePhotoPath the profilePhotoPath to set
+	 */
+	public void setProfilePhotoPath(String profilePhotoPath) {
+		this.profilePhotoPath = profilePhotoPath;
 	}
 
 	/* (non-Javadoc)
@@ -209,6 +219,8 @@ public class MemberVO implements Serializable{
 	public String toString() {
 		return "MemberVO [userNumber=" + userNumber + ", id=" + id + ", birth=" + birth + ", phoneNumber=" + phoneNumber
 				+ ", email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender + ", address="
-				+ address + ", point=" + point + ", favorite=" + favorite + "]";
+				+ address + ", point=" + point + ", favorite=" + favorite + ", profilePhotoPath=" + profilePhotoPath
+				+ "]";
 	}
+
 }

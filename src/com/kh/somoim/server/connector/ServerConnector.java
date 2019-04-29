@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import com.kh.somoim.server.process.HomeProcess;
 import com.kh.somoim.server.process.LoginrProcess;
 import com.kh.somoim.server.process.RecommendProcess;
+import com.kh.somoim.server.process.SearchProcess;
 import com.kh.somoim.server.process.SettingProcess;
 
 public class ServerConnector { 
@@ -77,7 +78,7 @@ public class ServerConnector {
 			HomeProcess homeProcess = new HomeProcess();
 			RecommendProcess recommendProcess = new RecommendProcess();
 			SettingProcess settingProcess = new SettingProcess();
-			
+			SearchProcess searchProcess = new SearchProcess();
 			
 			try {
 				ois = new ObjectInputStream(new DataInputStream(client.getInputStream()));
@@ -110,6 +111,14 @@ public class ServerConnector {
 					
 				case "SettingDAO.removeMember":
 					oos.writeObject(settingProcess.removeMember(requestObject));
+					break;
+					
+				case "SearchDAO.getFavoriteSearchClubList":
+					oos.writeObject(searchProcess.getFavoriteSearchClubList(requestObject));
+					break;
+					
+				case "SearchDAO.getStringSearchClubList":
+					oos.writeObject(searchProcess.getStringSearchClubList(requestObject));
 					break;
 					
 				default:
