@@ -3,34 +3,38 @@ package com.kh.somoim.chattingServer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.kh.somoim.home.model.vo.ClubVO;
+import com.kh.somoim.login.model.vo.MemberVO;
+
 public class ChattingServer {
 
-	HashMap<String,DataOutputStream> clients; //지역별 해쉬맵을 관리하는 해시맵
+	HashMap<MemberVO, ObjectOutputStream> clients;
 	ServerSocket serverSocket = null;
 	Socket socket = null;
-	
+
 	public ChattingServer() {
 		// TODO Auto-generated constructor stub
-		clients = new HashMap<String, DataOutputStream>();
+		clients = new HashMap<MemberVO, ObjectOutputStream>();
 		Collections.synchronizedMap(clients);
 	}
-	
 	public void start() {
+
 		try {
 			serverSocket = new ServerSocket(8888);
-			System.out.println("서버 시작!!");
-			while(true){
+			System.out.println("채팅 서버 시작!!");
 
+			while(true){
 				socket = serverSocket.accept();
 				System.out.println(socket.getInetAddress()+ " 접속!!!");
-
-				new ServerReceiver(socket).start();;
+				new ServerReceiver(socket).start();
 			}
 
 		} catch (IOException e) {
@@ -38,75 +42,60 @@ public class ChattingServer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	class ServerReceiver extends Thread {
 		Socket socket;
-		DataInputStream dis;
-		DataOutputStream dos;
+		ObjectInputStream ois;
+		ObjectOutputStream oos;
 
-		ServerReceiver(Socket socket) { 
-			this.socket = socket; 
-			try { 
-				// 클라이언트 소켓에서 데이터를 수신받기 위한 InputStream 생성
-				dis = new DataInputStream(socket.getInputStream());
-				
-				// 클라이언트 소켓에서 데이터를 전송하기 위한 OutputStream 생성
-				dos = new DataOutputStream(socket.getOutputStream());
-			} catch (IOException e) { 
+		public ServerReceiver(Socket socket) {
+			// TODO Auto-generated constructor stub
+			this.socket = socket;
+			try {
+				ois = new ObjectInputStream(new DataInputStream(socket.getInputStream()));
+				oos = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-		} 
+			}
+		}
 
+		@Override
 		public void run() {
-			String name = ""; 
-			try { 
-				// 서버에서는 최초에 클라이언트가 보낸 대화명을 받아야 한다. 
-				System.out.println("run in!!!");
-				name = dis.readUTF();
-				System.out.println("name ::" + name);
-				// 대화명을 받아, 전에 클라이언트에게 대화방 참여 메시지를 보낸다. 
-				sendToAll("#" + name + "님이 들어오셨습니다.");
+			// TODO Auto-generated method stub
+			super.run();
+			System.out.println("run!");
+			try {
+				MemberVO memberVO = (MemberVO)ois.readObject();
+				clients.put(memberVO, oos);
+				System.out.println("현재 접속자 수 : " + clients.size());
 
-				// 대화명, 클라이언로 메시지를 보낼 수 있는 OutputStream 객체를
-				// 대화방 Map에 저장한다.  
-				clients.put(name, dos); 
-				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다.");
+				while (ois != null) { 
+					sendToAll((String)ois.readObject()); 
+				}//while 
 
-				// 클라이언트가 전송한 메시지를 받아, 전에 클라이언트에게 메시지를 보낸다. 
-				while (dis != null) { 
-					sendToAll(dis.readUTF()); 
-				}//while  
 
-			} catch (IOException e) { 
-				// ignore 
-			} finally { 
-				// finally절이 실행된다는 것은 클라이언트가 빠져나간 것을 의미한다. 
-				sendToAll("#" + name + "님이 나가셨습니다.");
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-				// 대화방에서 객체 삭제 
-				clients.remove(name); 
-				System.out.println("[" + socket.getInetAddress() //
-				+ ":" + socket.getPort() + "]" + "에서 접속을 종료하였습니다.");
-				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다.");
-			} // try 
-		} // run 
-	} // ReceiverThread 
-	
-	void sendToAll(String msg) { 
-		// 대화방에 접속한 유저의 대화명 리스트 추출 
-		Iterator<String> it = clients.keySet().iterator(); 
+		}
+	}
 
+	void sendToAll(String msg) {
+		Iterator<MemberVO> it = clients.keySet().iterator();
 		while (it.hasNext()) { 
 			try { 
-				String name = it.next(); 
-				System.out.println("name ::: " + name);
-				DataOutputStream out = clients.get(name);
-				out.writeUTF(msg);
+
+				MemberVO memberVO = it.next(); 
+				System.out.println("name ::: " + memberVO);
+				ObjectOutputStream oos = clients.get(memberVO);
+				oos.writeObject(msg);
 				System.out.println("msg ::: " + msg);
-				
 			} catch (IOException e) { 
 			} 
 		} // while 
-	} // sendToAll 
-	
+	}
+
 }
