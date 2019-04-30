@@ -49,11 +49,8 @@ public class ClubProcess {
 				memberVO.setFavorite(favoriteList);
 				memberVO.setProfilePhotoPath(tempStringArray[11]);
 				
-				System.out.println("start");
 				for(Integer userNumber : requestMemberList) {
-					System.out.println(userNumber + "::::::" + tempStringArray[0]);
 					if(userNumber.equals(Integer.valueOf(tempStringArray[0]))) {
-						System.out.println("in!!!!!!!!");
 						resoponseMemberList.add(memberVO);
 					}
 				}

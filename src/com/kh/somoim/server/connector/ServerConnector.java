@@ -38,6 +38,9 @@ public class ServerConnector {
 		try {
 			
 			serverSocket = new ServerSocket(7777);
+			System.out.println("==========================================================");
+			System.out.println("========================데이터 서버 시작=======================");
+			System.out.println("==========================================================");
 			System.out.println("Server IP : " + InetAddress.getLocalHost());
 			System.out.println("서버 시작!(port : " + serverSocket.getLocalPort() + ")");
 			
