@@ -13,7 +13,6 @@ public class SignupProcess {
 
 	private BufferedReader br;
 	private BufferedWriter bw;
-	private int maxNumber = 0;
 
 	public Object setSignup(Object requestObject) {
 		// TODO Auto-generated method stub
@@ -25,6 +24,7 @@ public class SignupProcess {
 			br = new BufferedReader(new FileReader("member.txt"));
 			String[] tempStringArray; 
 			String line = "";
+			int maxNumber = 0;
 			while((line = br.readLine()) != null) {
 				tempStringArray = line.split("」」");
 				if (maxNumber < Integer.parseInt(tempStringArray[0])) {
@@ -56,7 +56,7 @@ public class SignupProcess {
 				}
 			}
 			memberInformationStr += "」」";
-			memberInformationStr += "images/member/myprofile.png";
+			memberInformationStr += "images/member/userprofile.png";
 			
 			System.out.println("memberInformationStr:::"+memberInformationStr);
 			bw.newLine();

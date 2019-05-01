@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import com.kh.somoim.home.model.vo.BoardVO;
+import com.kh.somoim.club.model.vo.BoardVO;
 import com.kh.somoim.home.model.vo.ClubVO;
 
 public class BoardProcess {
@@ -31,7 +31,7 @@ public class BoardProcess {
 				boardVO.setWritingNumber(Integer.parseInt(tempStringArray[1]));
 				boardVO.setTitle(tempStringArray[2]);
 				boardVO.setContent(tempStringArray[3]);
-				boardVO.setWriter(tempStringArray[4]);
+				boardVO.setWriter(Integer.parseInt(tempStringArray[4]));
 			//	boardVO.setWriteDay(Date.parse(tempStringArray[5]));
 				boardVO.setBoardSelect(tempStringArray[6]);
 				boardVO.setImagePath(tempStringArray[7]);

@@ -124,6 +124,10 @@ public class ServerConnector {
 					oos.writeObject(settingProcess.removeMember(requestObject));
 					break;
 					
+				case "SettingDAO.setProfilePhoto":
+					oos.writeObject(settingProcess.setProfilePhoto(requestObject));
+					break;
+					
 				case "SearchDAO.getFavoriteSearchClubList":
 					oos.writeObject(searchProcess.getFavoriteSearchClubList(requestObject));
 					break;
@@ -132,8 +136,16 @@ public class ServerConnector {
 					oos.writeObject(searchProcess.getStringSearchClubList(requestObject));
 					break;
 					
-				case "ClubInfoDAO.getClubMemberList":
+				case "ClubDAO.getClubMemberList":
 					oos.writeObject(clubProcess.getClubMemberList(requestObject));
+					break;
+
+				case "ClubDAO.insertBoard":
+					oos.writeObject(clubProcess.insertBoard(requestObject));
+					break;
+
+				case "ClubDAO.getFirstGreeting":
+					oos.writeObject(clubProcess.getFirstGreeting(requestObject));
 					break;
 					
 				default:

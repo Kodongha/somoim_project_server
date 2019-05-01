@@ -1,37 +1,39 @@
-package com.kh.somoim.home.model.vo;
+package com.kh.somoim.club.model.vo;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class BoardVO implements Serializable {
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1205412931488580253L;
-	private int clubNumber;				//소모임 번호 
+	private static final long serialVersionUID = -5373661782343512093L;
 	private int writingNumber;			//글 번호 
+	private int clubNumber;				//소모임 번호 
 	private String title;				//글 제목  
 	private String content;				//글 내용  
-	private String writer;				//작성자  
+	private int writer;				//작성자  
 	private Date writeDay;				//작성일
 	private String boardSelect;			//게시판 선택 
 	private String imagePath;			//이미지 경로 
 	
-	public BoardVO() {}
-	
-	public BoardVO(int clubNumber, int writingNumber, String title, String content, String writer, 
-				Date writeDay, String boardSelect, String imagePath) {
-			super();
-			this.clubNumber = clubNumber;
-			this.writingNumber = writingNumber;
-			this.title = title;
-			this.content = content;
-			this.writer = writer;
-			this.writeDay = writeDay;
-			this.boardSelect = boardSelect;
-			this.imagePath = imagePath;
-			
+	public BoardVO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @return the writingNumber
+	 */
+	public int getWritingNumber() {
+		return writingNumber;
+	}
+
+	/**
+	 * @param writingNumber the writingNumber to set
+	 */
+	public void setWritingNumber(int writingNumber) {
+		this.writingNumber = writingNumber;
 	}
 
 	/**
@@ -49,21 +51,7 @@ public class BoardVO implements Serializable {
 	}
 
 	/**
-	 * @return the writingNumber
-	 */
-	public int getWritingNumber() {
-		return writingNumber;
-	}
-
-	/**
-	 * @param writingNumber the writingNumber to set
-	 */
-	public void setWritingNumber(int writingNumber) {
-		this.writingNumber = writingNumber;
-	}
-	
-	/**
-	 * @return the title;
+	 * @return the title
 	 */
 	public String getTitle() {
 		return title;
@@ -93,14 +81,14 @@ public class BoardVO implements Serializable {
 	/**
 	 * @return the writer
 	 */
-	public String getWriter() {
+	public int getWriter() {
 		return writer;
 	}
 
 	/**
 	 * @param writer the writer to set
 	 */
-	public void setWriter(String writer) {
+	public void setWriter(int writer) {
 		this.writer = writer;
 	}
 
@@ -145,15 +133,17 @@ public class BoardVO implements Serializable {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "BoardVO [clubNumber=" + clubNumber + ", writingNumber=" + writingNumber + ", title=" + title
-				+ ", content=" + content + ", writer=" + writer + ", writeDay=" + writeDay
-				+ ", boardSelect=" + boardSelect + ", imagePath=" + imagePath + "]";
-	}	
-
+		return "BoardVO [writingNumber=" + writingNumber + ", clubNumber=" + clubNumber + ", title=" + title
+				+ ", content=" + content + ", writer=" + writer + ", writeDay=" + writeDay + ", boardSelect="
+				+ boardSelect + ", imagePath=" + imagePath + "]";
+	}
+	
+	
+	
 }
