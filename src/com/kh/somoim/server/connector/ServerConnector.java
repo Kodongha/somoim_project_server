@@ -18,6 +18,7 @@ import com.kh.somoim.server.process.LoginrProcess;
 import com.kh.somoim.server.process.RecommendProcess;
 import com.kh.somoim.server.process.SearchProcess;
 import com.kh.somoim.server.process.SettingProcess;
+import com.kh.somoim.server.process.SignupProcess;
 
 public class ServerConnector { 
 
@@ -83,7 +84,8 @@ public class ServerConnector {
 			RecommendProcess recommendProcess = new RecommendProcess();
 			SettingProcess settingProcess = new SettingProcess();
 			SearchProcess searchProcess = new SearchProcess();
-			ClubProcess clubProcess = new ClubProcess(); 
+			ClubProcess clubProcess = new ClubProcess();
+			SignupProcess signupProcess = new SignupProcess();
 			
 			try {
 				ois = new ObjectInputStream(new DataInputStream(client.getInputStream()));
@@ -102,6 +104,10 @@ public class ServerConnector {
 					oos.writeObject(loginrProcess.checkAccount(requestObject));
 					break;
 
+				case "SignupDAO.setSignup":
+					oos.writeObject(signupProcess.setSignup(requestObject));
+					break;
+					
 				case "HomeDAO.getMyClubList":
 					oos.writeObject(homeProcess.getMyClubList(requestObject));
 					break;
