@@ -27,12 +27,15 @@ public class BoardProcess {
 				BoardVO boardVO = new BoardVO();
 				
 				tempStringArray = line.split("¡×¡×");
-				boardVO.setClubNumber(clubVO.getClubNumber());
-				boardVO.setTitle(tempStringArray[1]);
-				boardVO.setContent(tempStringArray[2]);
-				boardVO.setWriter(tempStringArray[3]);
-//				boardVO.setWriteDay(Date.parse(tempStringArray[4]));
-//				boardVO.
+				boardVO.setClubNumber(Integer.parseInt(tempStringArray[0]));
+				boardVO.setWritingNumber(Integer.parseInt(tempStringArray[1]));
+				boardVO.setTitle(tempStringArray[2]);
+				boardVO.setContent(tempStringArray[3]);
+				boardVO.setWriter(tempStringArray[4]);
+			//	boardVO.setWriteDay(Date.parse(tempStringArray[5]));
+				boardVO.setBoardSelect(tempStringArray[6]);
+				boardVO.setImagePath(tempStringArray[7]);
+				
 				
 			}
 		} catch (FileNotFoundException e) {
