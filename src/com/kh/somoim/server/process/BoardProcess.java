@@ -31,8 +31,8 @@ public class BoardProcess {
 				boardVO.setTitle(tempStringArray[1]);
 				boardVO.setContent(tempStringArray[2]);
 				boardVO.setWriter(tempStringArray[3]);
-				boardVO.setWriteDay(Date.parse(tempStringArray[4]));
-				boardVO.
+//				boardVO.setWriteDay(Date.parse(tempStringArray[4]));
+//				boardVO.
 				
 			}
 		} catch (FileNotFoundException e) {
