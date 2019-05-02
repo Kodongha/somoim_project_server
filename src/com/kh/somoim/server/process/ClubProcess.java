@@ -244,7 +244,7 @@ public class ClubProcess {
 					boardResponseVO.setImagePath(tempStringArray[7]);
 				}
 				
-				if(clubVO.getClubNumber() == boardResponseVO.getClubNumber()) {
+				if(clubVO.getClubNumber() == boardResponseVO.getClubNumber() && boardResponseVO.getBoardSelect().equals("가입인사")) {
 					boardResponseVOList.add(boardResponseVO);
 				}
 			} // end while 
