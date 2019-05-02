@@ -79,6 +79,42 @@ public class SignupProcess {
 		}
 		return "Ok";
 	}
-	
-	
+
+	public Object checkId(Object obj) {
+		// TODO Auto-generated method stub
+		String id = (String)obj;
+		System.out.println("input id :::" + id);
+		boolean result = true;
+		
+		try {
+			br = new BufferedReader(new FileReader("member.txt"));
+			String[] tempStringArray; 
+			String line = "";
+			int maxNumber = 0;
+			while((line = br.readLine()) != null) {
+				tempStringArray = line.split("¡×¡×");
+				if (id.equals(tempStringArray[1])) {
+					result = false;
+					break;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }

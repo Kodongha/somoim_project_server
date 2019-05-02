@@ -107,6 +107,10 @@ public class ServerConnector {
 				case "SignupDAO.setSignup":
 					oos.writeObject(signupProcess.setSignup(requestObject));
 					break;
+
+				case "SignupDAO.checkId":
+					oos.writeObject(signupProcess.checkId(requestObject));
+					break;
 					
 				case "HomeDAO.getMyClubList":
 					oos.writeObject(homeProcess.getMyClubList(requestObject));
