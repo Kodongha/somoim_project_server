@@ -22,11 +22,11 @@ public class ClubProcess {
 	private BufferedReader br;
 	private BufferedWriter bw;
 	private BufferedReader tempBr;
-	
+
 	public Object getClubMemberList(Object obj) {
 		// TODO Auto-generated method stub
 		ClubVO requestClubVO = (ClubVO)obj;
-		
+
 		ArrayList<Integer> requestMemberList = requestClubVO.getMembersNumber();
 		ArrayList<MemberVO> resoponseMemberList = new ArrayList<MemberVO>();
 		System.out.println("requestMemberList:::" + requestMemberList);
@@ -35,13 +35,13 @@ public class ClubProcess {
 			String[] tempStringArray; 
 			String[] temp2StringArray; 
 			ArrayList<String> favoriteList = new ArrayList<String>();
-			
+
 			String line = "";
 			while((line = br.readLine()) != null) {
 				MemberVO memberVO = new MemberVO();
-				
+
 				tempStringArray = line.split("」」");
-				
+
 				memberVO.setUserNumber(Integer.parseInt(tempStringArray[0]));
 				memberVO.setId(tempStringArray[1]);
 				memberVO.setBirth(tempStringArray[2]);
@@ -58,7 +58,7 @@ public class ClubProcess {
 				}
 				memberVO.setFavorite(favoriteList);
 				memberVO.setProfilePhotoPath(tempStringArray[11]);
-				
+
 				for(Integer userNumber : requestMemberList) {
 					if(userNumber.equals(Integer.valueOf(tempStringArray[0]))) {
 						resoponseMemberList.add(memberVO);
@@ -91,7 +91,7 @@ public class ClubProcess {
 	public Object insertBoard(Object obj) {
 		// TODO Auto-generated method stub
 		BoardVO boardVO = (BoardVO)obj;
-		
+
 		try {
 			br = new BufferedReader(new FileReader("board.txt"));
 			String[] tempStringArray; 
@@ -103,26 +103,26 @@ public class ClubProcess {
 					maxNumber = Integer.parseInt(tempStringArray[0]);
 				}
 			}
-			
+
 			maxNumber += 1;
-			
+
 			String boardStr = "";
 			boardStr += maxNumber + "」」";
 			boardStr += boardVO.getClubNumber() + "」」";
 			boardStr += boardVO.getTitle() + "」」";
 			boardStr += boardVO.getContent() + "」」";
 			boardStr += boardVO.getWriter() + "」」";
-			
+
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
 			String date = sdf.format(boardVO.getWriteDay());
 			boardStr += date + "」」";
 			boardStr += boardVO.getBoardSelect() + "」」";
 			boardStr += boardVO.getImagePath();
-			
+
 			bw = new BufferedWriter(new FileWriter("board.txt", true));
 			bw.newLine();
 			bw.write(boardStr);
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,8 +141,8 @@ public class ClubProcess {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		return null;
 	}
 
@@ -154,21 +154,21 @@ public class ClubProcess {
 	public Object getFirstGreeting(Object obj) {
 		// TODO Auto-generated method stub
 		MemberInClubVO memberInClubVO = (MemberInClubVO)obj;
-		
-		
+
+
 		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
 		try {
 			tempBr = new BufferedReader(new FileReader("member.txt"));
 			String[] tempStringArray; 
 			String[] temp2StringArray; 
 			ArrayList<String> favoriteList = new ArrayList<String>();
-			
+
 			String line = "";
 			while((line = tempBr.readLine()) != null) {
 				MemberVO memberVO = new MemberVO();
-				
+
 				tempStringArray = line.split("」」");
-				
+
 				memberVO.setUserNumber(Integer.parseInt(tempStringArray[0]));
 				memberVO.setId(tempStringArray[1]);
 				memberVO.setBirth(tempStringArray[2]);
@@ -185,7 +185,7 @@ public class ClubProcess {
 				}
 				memberVO.setFavorite(favoriteList);
 				memberVO.setProfilePhotoPath(tempStringArray[11]);
-				
+
 				memberList.add(memberVO);
 			}
 		} catch (FileNotFoundException e) {
@@ -202,10 +202,10 @@ public class ClubProcess {
 				e.printStackTrace();
 			}
 		}
-		
+
 		System.out.println("memberList::::::"+memberList);
 		System.out.println("memberList.size()::::::"+memberList.size());
-		
+
 		ClubVO clubVO = memberInClubVO.getClubVO();
 		String category = memberInClubVO.getSelectedCategory();
 		ArrayList<BoardResponseVO> boardResponseVOList = new ArrayList<BoardResponseVO>(); 
@@ -220,7 +220,7 @@ public class ClubProcess {
 				boardResponseVO.setClubNumber(Integer.parseInt(tempStringArray[1]));
 				boardResponseVO.setTitle(tempStringArray[2]);
 				boardResponseVO.setContent(tempStringArray[3]);
-				
+
 				int writeNumber = Integer.parseInt(tempStringArray[4]);
 				for(MemberVO tempMemberVO : memberList) {
 					if(writeNumber == tempMemberVO.getUserNumber()) {
@@ -244,12 +244,12 @@ public class ClubProcess {
 				} else if(tempStringArray.length == 8) {
 					boardResponseVO.setImagePath(tempStringArray[7]);
 				}
-				
+
 				if(clubVO.getClubNumber() == boardResponseVO.getClubNumber() && boardResponseVO.getBoardSelect().equals(category)) {
 					boardResponseVOList.add(boardResponseVO);
 				}
 			} // end while 
-			
+
 			System.out.println("boardResponseVOList::::"+boardResponseVOList);
 			System.out.println("boardResponseVOList.size()::::"+boardResponseVOList.size());
 		} catch (FileNotFoundException e) {
@@ -258,7 +258,107 @@ public class ClubProcess {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				tempBr.close();
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return boardResponseVOList;
+	}
+
+	public Object createClub(Object obj) {
+		// TODO Auto-generated method stub
+		ClubVO clubVO = (ClubVO)obj;
+
+		try {
+			br = new BufferedReader(new FileReader("club.txt"));
+			String[] tempStringArray; 
+			String line = "";
+			int maxNumber = 0;
+			while((line = br.readLine()) != null) {
+				tempStringArray = line.split("」」");
+				if (maxNumber < Integer.parseInt(tempStringArray[0])) {
+					maxNumber = Integer.parseInt(tempStringArray[0]);
+				}
+			}
+
+			maxNumber += 1;
+
+			String clubInserString = "";
+			clubInserString += clubVO.getClubNumber() + "」」";
+			clubInserString += clubVO.getName()  + "」」";
+			clubInserString += clubVO.getClupMasterNumber() + "」」";
+			clubInserString += clubVO.getInformation() + "」」";
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String meetingDay = sdf.format(clubVO.getMeetingDay());
+			clubInserString += meetingDay + "」」";
+
+			clubInserString += "images/club/" + maxNumber + "." +clubVO.getTitleImagePath().split("[.]")[1] + "」」";
+			clubInserString += clubVO.getCategory() + "」」";
+			clubInserString += clubVO.getClupMasterNumber();
+
+
+			System.out.println("clubInserString:::"+clubInserString);
+
+			bw = new BufferedWriter(new FileWriter("club.txt", true));
+			bw.newLine();
+			bw.write(clubInserString);
+			bw.flush();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return "";
+	}
+
+	public Object getMaxNumber(Object obj) {
+		// TODO Auto-generated method stub
+		ClubVO clubVO = (ClubVO)obj;
+		Integer maxNumber = 0;
+
+		try {
+			br = new BufferedReader(new FileReader("club.txt"));
+			String[] tempStringArray; 
+			String line = "";
+			while((line = br.readLine()) != null) {
+				tempStringArray = line.split("」」");
+				if (maxNumber < Integer.parseInt(tempStringArray[0])) {
+					maxNumber = Integer.parseInt(tempStringArray[0]);
+
+					maxNumber += 1;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return maxNumber;
 	}
 }

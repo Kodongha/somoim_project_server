@@ -55,9 +55,15 @@ public class HomeProcess {
 				clubVO.setTitleImagePath(tempStringArray[5]);
 				clubVO.setCategory(tempStringArray[6]);
 				
-				temp2StringArray = tempStringArray[7].split(",");
+				if(tempStringArray[7].contains(",")) {
+					temp2StringArray = tempStringArray[7].split(",");
+				} else {
+					temp2StringArray = new String[1];
+					temp2StringArray[0] = tempStringArray[7];
+				}
 				for(String memberNumber : temp2StringArray) {
 					if(userNumber == Integer.parseInt(memberNumber)) {
+						System.out.println("1");
 						myClubFlag = true;
 					}
 					memberList.add(Integer.parseInt(memberNumber));

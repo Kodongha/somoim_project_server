@@ -104,6 +104,18 @@ public class ServerConnector {
 					oos.writeObject(loginrProcess.checkAccount(requestObject));
 					break;
 
+				case "LoginDAO.getMyId":
+					oos.writeObject(loginrProcess.getMyId(requestObject));
+					break;
+
+				case "LoginDAO.getMyidForPassword":
+					oos.writeObject(loginrProcess.getMyidForPassword(requestObject));
+					break;
+
+				case "LoginDAO.updatePassword":
+					oos.writeObject(loginrProcess.updatePassword(requestObject));
+					break;
+
 				case "SignupDAO.setSignup":
 					oos.writeObject(signupProcess.setSignup(requestObject));
 					break;
@@ -140,8 +152,16 @@ public class ServerConnector {
 					oos.writeObject(searchProcess.getStringSearchClubList(requestObject));
 					break;
 					
+				case "ClubDAO.createClub":
+					oos.writeObject(clubProcess.createClub(requestObject));
+					break;
+
 				case "ClubDAO.getClubMemberList":
 					oos.writeObject(clubProcess.getClubMemberList(requestObject));
+					break;
+
+				case "ClubDAO.getMaxNumber":
+					oos.writeObject(clubProcess.getMaxNumber(requestObject));
 					break;
 
 				case "ClubDAO.insertBoard":
