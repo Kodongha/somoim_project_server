@@ -207,6 +207,7 @@ public class ClubProcess {
 		System.out.println("memberList.size()::::::"+memberList.size());
 		
 		ClubVO clubVO = memberInClubVO.getClubVO();
+		String category = memberInClubVO.getSelectedCategory();
 		ArrayList<BoardResponseVO> boardResponseVOList = new ArrayList<BoardResponseVO>(); 
 		try {
 			br = new BufferedReader(new FileReader("board.txt"));
@@ -244,7 +245,7 @@ public class ClubProcess {
 					boardResponseVO.setImagePath(tempStringArray[7]);
 				}
 				
-				if(clubVO.getClubNumber() == boardResponseVO.getClubNumber() && boardResponseVO.getBoardSelect().equals("가입인사")) {
+				if(clubVO.getClubNumber() == boardResponseVO.getClubNumber() && boardResponseVO.getBoardSelect().equals(category)) {
 					boardResponseVOList.add(boardResponseVO);
 				}
 			} // end while 

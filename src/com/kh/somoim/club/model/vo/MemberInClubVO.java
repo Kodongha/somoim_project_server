@@ -10,18 +10,20 @@ public class MemberInClubVO implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9086946483598873397L;
+	private static final long serialVersionUID = 7178760394558956774L;
 	private ClubVO clubVO;
 	private MemberVO memberVO;
+	private String selectedCategory;
 	
 	public MemberInClubVO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MemberInClubVO(ClubVO clubVO, MemberVO memberVO) {
+	public MemberInClubVO(ClubVO clubVO, MemberVO memberVO, String selectedCategory) {
 		super();
 		this.clubVO = clubVO;
 		this.memberVO = memberVO;
+		this.selectedCategory = selectedCategory;
 	}
 
 	/**
@@ -52,12 +54,25 @@ public class MemberInClubVO implements Serializable{
 		this.memberVO = memberVO;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the selectedCategory
 	 */
-	@Override
-	public String toString() {
-		return "MemberInClubVO [clubVO=" + clubVO + ", memberVO=" + memberVO + "]";
+	public String getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	/**
+	 * @param selectedCategory the selectedCategory to set
+	 */
+	public void setSelectedCategory(String selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }
