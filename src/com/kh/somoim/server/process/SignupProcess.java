@@ -70,8 +70,13 @@ public class SignupProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
-				bw.close();
+				if(br != null) {
+					br.close();
+				}
+				
+				if(bw != null) {
+					bw.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,7 +114,9 @@ public class SignupProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

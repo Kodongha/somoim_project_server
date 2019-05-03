@@ -35,6 +35,10 @@ public class HomeProcess {
 
 			String line = "";
 			while((line = br.readLine()) != null) {
+				if(line.equals("")) {
+					continue;
+				}
+				
 				ClubVO clubVO = new ClubVO();
 				ArrayList<Integer> memberList = new ArrayList<Integer>();
 				myClubFlag = false;
@@ -72,16 +76,37 @@ public class HomeProcess {
 					System.out.println("가입된 소모임 : " + clubVO);
 					myClubList.add(clubVO);
 				}
-				
 			} // end while
+			
+			System.out.println("end while!!!!");
+			System.out.println("end while!!!!");
+			System.out.println("end while!!!!");
+			System.out.println("end while!!!!");
+			System.out.println("end while!!!!");
+			System.out.println("end while!!!!");
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			System.out.println("1");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("2");
 			e.printStackTrace();
+		} finally {
+			try {
+				System.out.println("3");
+				if(br != null) {
+					br.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("4");
+				e.printStackTrace();
+			}
 		}
-
+		System.out.println("5");
+		
 		System.out.println("myClubList:::"+myClubList);
 		return myClubList;
 	}

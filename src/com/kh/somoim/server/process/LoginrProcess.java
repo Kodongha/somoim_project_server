@@ -76,7 +76,9 @@ public class LoginrProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,7 +139,9 @@ public class LoginrProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -194,7 +198,9 @@ public class LoginrProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -286,10 +292,20 @@ public class LoginrProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
-				bw.close();
-				tempBr.close();
-				tempBw.close();
+				if(br != null) {
+					br.close();
+				}
+				
+				if(bw != null) {
+					bw.close();
+				}
+				
+				if(tempBr != null) {
+					tempBr.close();
+				}
+				if(tempBw != null) {
+					tempBw.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

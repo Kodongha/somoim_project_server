@@ -2,6 +2,7 @@ package com.kh.somoim.server.process;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -79,7 +80,9 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -139,8 +142,13 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
-				bw.close();
+				if(br != null) {
+					br.close();
+				}
+				
+				if(bw != null) {
+					bw.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -163,13 +171,13 @@ public class ClubProcess {
 
 		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
 		try {
-			tempBr = new BufferedReader(new FileReader("member.txt"));
+			br = new BufferedReader(new FileReader("member.txt"));
 			String[] tempStringArray;
 			String[] temp2StringArray;
 			ArrayList<String> favoriteList = new ArrayList<String>();
 
 			String line = "";
-			while((line = tempBr.readLine()) != null) {
+			while((line = br.readLine()) != null) {
 				MemberVO memberVO = new MemberVO();
 
 				tempStringArray = line.split("」」");
@@ -201,7 +209,9 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				tempBr.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -260,8 +270,13 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				tempBr.close();
-				br.close();
+				if(br != null) {
+					br.close();
+				}
+				
+				if(tempBr != null) {
+					tempBr.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -327,7 +342,9 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -387,8 +404,7 @@ public class ClubProcess {
 			int year = 0;
 			int month = 0;
 			int day = 0;
-			Date meetingDay = null;
-			boolean myClubFlag = false;
+			Date resultMeetingDay = null;
 			
 			String line = "";
 			while((line = br.readLine()) != null) {
@@ -405,8 +421,8 @@ public class ClubProcess {
 				year = Integer.parseInt(tempStringArray[4].substring(0, 4));
 				month = Integer.parseInt(tempStringArray[4].substring(4, 6)) - 1;
 				day = Integer.parseInt(tempStringArray[4].substring(6, 8));
-				meetingDay = new Date(new GregorianCalendar(year, month, day).getTimeInMillis());
-				clubVO.setMeetingDay(meetingDay);
+				resultMeetingDay = new Date(new GregorianCalendar(year, month, day).getTimeInMillis());
+				clubVO.setMeetingDay(resultMeetingDay);
 
 				clubVO.setTitleImagePath(tempStringArray[5]);
 				clubVO.setCategory(tempStringArray[6]);
@@ -422,12 +438,15 @@ public class ClubProcess {
 				}
 				clubVO.setMembersNumber(memberList);
 				
-				if(clubVO.getClubNumber() == requestClubVO.getClubNumber()) {
+				if(clubVO.getClubNumber() == requestMemberNumber) {
 					resultClub = clubVO;
 					continue;
 				}
+				
 				tempBw.write(line + System.getProperty("line.separator"));
 			}
+			
+			tempBw.flush();
 			
 			ArrayList<Integer> list = resultClub.getMembersNumber();
 			for(int i=0; i<list.size(); i++) {
@@ -438,13 +457,46 @@ public class ClubProcess {
 			
 			resultClub.setMembersNumber(list);
 			
+			System.out.println(resultClub);
 			
-			while((line = br.readLine()) != null) {
-				
+			String clubInserString = "";
+			clubInserString += resultClub.getClubNumber() + "」」";
+			clubInserString += resultClub.getName()  + "」」";
+			clubInserString += resultClub.getClupMasterNumber() + "」」";
+			clubInserString += resultClub.getInformation() + "」」";
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String resultMeetingDay1 = sdf.format(resultClub.getMeetingDay());
+			clubInserString += resultMeetingDay1 + "」」";
+			clubInserString += resultClub.getTitleImagePath() + "」」";
+			clubInserString += resultClub.getCategory() + "」」";
+			
+			for(int i=0; i<list.size(); i++) {
+				if(i < list.size() - 1) {
+					clubInserString += list.get(i) + ",";
+				} else {
+					clubInserString += list.get(i) + "";
+				}
 			}
 			
+			System.out.println("clubInserString::::"+clubInserString);
 			
-		} catch (FileNotFoundException e) {
+			tempBw = new BufferedWriter(new FileWriter("temp_club.txt", true));
+			tempBw.write(clubInserString);
+			tempBw.flush();
+			
+			tempBr = new BufferedReader(new FileReader("temp_club.txt"));
+			
+			bw = new BufferedWriter(new FileWriter("club.txt"));
+			while((line = tempBr.readLine()) != null) {
+				if(line.equals("")) {
+					break;
+				}
+				bw.write(line + System.getProperty("line.separator"));
+			}
+			bw.flush();
+			
+		} catch (FileNotFoundException | EOFException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -452,16 +504,169 @@ public class ClubProcess {
 			e.printStackTrace();
 		} finally {
 			try {
-				br.close();
+				if(br != null) {
+					br.close();
+				}
+				
+				if(bw != null) {
+					bw.close();
+				}
+				
+				if(tempBr != null) {
+					tempBr.close();
+				}
+				
+				if(tempBw != null) {
+					tempBw.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		
-		
-		
 		return "";
+	}
+
+	public Object signupClub(Object obj) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+				MemberInClubVO memberInClubVO = (MemberInClubVO)obj;
+				
+				ClubVO requestClubVO = memberInClubVO.getClubVO();
+				MemberVO memberVO = memberInClubVO.getMemberVO();
+						
+				int requestClubNumber = requestClubVO.getClubNumber();
+				int requestMemberNumber = memberVO.getUserNumber();
+				ClubVO resultClub = null;
+				
+				try {
+					
+					br = new BufferedReader(new FileReader("club.txt"));
+					tempBw = new BufferedWriter(new FileWriter("temp_club.txt"));
+					String[] tempStringArray;
+					String[] temp2StringArray;
+					
+					int year = 0;
+					int month = 0;
+					int day = 0;
+					Date resultMeetingDay = null;
+					
+					String line = "";
+					while((line = br.readLine()) != null) {
+						
+						ClubVO clubVO = new ClubVO();
+						ArrayList<Integer> memberList = new ArrayList<Integer>();
+						tempStringArray = line.split("」」");
+						
+						clubVO.setClubNumber(Integer.parseInt(tempStringArray[0]));
+						clubVO.setName(tempStringArray[1]);
+						clubVO.setClupMasterNumber(Integer.parseInt(tempStringArray[2]));
+						clubVO.setInformation(tempStringArray[3]);
+
+						year = Integer.parseInt(tempStringArray[4].substring(0, 4));
+						month = Integer.parseInt(tempStringArray[4].substring(4, 6)) - 1;
+						day = Integer.parseInt(tempStringArray[4].substring(6, 8));
+						resultMeetingDay = new Date(new GregorianCalendar(year, month, day).getTimeInMillis());
+						clubVO.setMeetingDay(resultMeetingDay);
+
+						clubVO.setTitleImagePath(tempStringArray[5]);
+						clubVO.setCategory(tempStringArray[6]);
+						
+						if(tempStringArray[7].contains(",")) {
+							temp2StringArray = tempStringArray[7].split(",");
+						} else {
+							temp2StringArray = new String[1];
+							temp2StringArray[0] = tempStringArray[7];
+						}
+						for(String signupMemberNumber : temp2StringArray) {
+							memberList.add(Integer.parseInt(signupMemberNumber));
+						}
+						clubVO.setMembersNumber(memberList);
+						
+						if(clubVO.getClubNumber() == requestMemberNumber) {
+							resultClub = clubVO;
+							continue;
+						}
+						
+						tempBw.write(line + System.getProperty("line.separator"));
+					}
+					
+					tempBw.flush();
+					
+					ArrayList<Integer> list = resultClub.getMembersNumber();
+					list.add(requestMemberNumber);
+					
+					resultClub.setMembersNumber(list);
+					
+					System.out.println(resultClub);
+					
+					String clubInserString = "";
+					clubInserString += resultClub.getClubNumber() + "」」";
+					clubInserString += resultClub.getName()  + "」」";
+					clubInserString += resultClub.getClupMasterNumber() + "」」";
+					clubInserString += resultClub.getInformation() + "」」";
+
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					String resultMeetingDay1 = sdf.format(resultClub.getMeetingDay());
+					clubInserString += resultMeetingDay1 + "」」";
+					clubInserString += resultClub.getTitleImagePath() + "」」";
+					clubInserString += resultClub.getCategory() + "」」";
+					
+					for(int i=0; i<list.size(); i++) {
+						if(i < list.size() - 1) {
+							clubInserString += list.get(i) + ",";
+						} else {
+							clubInserString += list.get(i) + "";
+						}
+					}
+					
+					System.out.println("clubInserString::::"+clubInserString);
+					
+					tempBw = new BufferedWriter(new FileWriter("temp_club.txt", true));
+					tempBw.write(clubInserString);
+					tempBw.flush();
+					
+					tempBr = new BufferedReader(new FileReader("temp_club.txt"));
+					
+					bw = new BufferedWriter(new FileWriter("club.txt"));
+					while((line = tempBr.readLine()) != null) {
+						if(line.equals("")) {
+							break;
+						}
+						bw.write(line + System.getProperty("line.separator"));
+					}
+					bw.flush();
+					
+				} catch (FileNotFoundException | EOFException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					try {
+						if(br != null) {
+							br.close();
+						}
+						
+						if(bw != null) {
+							bw.close();
+						}
+						
+						if(tempBr != null) {
+							tempBr.close();
+						}
+						
+						if(tempBw != null) {
+							tempBw.close();
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				return "";
 	}
 }

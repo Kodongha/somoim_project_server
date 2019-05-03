@@ -160,6 +160,10 @@ public class ServerConnector {
 					oos.writeObject(clubProcess.getClubMemberList(requestObject));
 					break;
 
+				case "ClubDAO.signupClub":
+					oos.writeObject(clubProcess.signupClub(requestObject));
+					break;
+
 				case "ClubDAO.leaveClub":
 					oos.writeObject(clubProcess.leaveClub(requestObject));
 					break;
