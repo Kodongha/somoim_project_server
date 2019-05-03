@@ -16,6 +16,11 @@ public class SettingProcess {
 	private BufferedReader tempBr;
 	private BufferedWriter tempBw;
 
+	/**
+	 * 개인정보 수정
+	 * @param obj
+	 * @return
+	 */
 	public Object setInformation(Object obj) {
 		// TODO Auto-generated method stub
 		MemberVO requestMemberVO = (MemberVO)obj;
@@ -63,7 +68,6 @@ public class SettingProcess {
 			
 			memberInformationStr += "§§" + requestMemberVO.getProfilePhotoPath();
 			
-			System.out.println("memberInformationStr::::::::::::" + memberInformationStr);
 			tempBw.write(memberInformationStr);
 			tempBw.flush();
 
@@ -190,7 +194,7 @@ public class SettingProcess {
 			
 			memberInformationStr += "§§" + requestMemberVO.getProfilePhotoPath();
 			
-			System.out.println("memberInformationStr::::::::::::" + memberInformationStr);
+			System.out.println("memberInformationStr ::: " + memberInformationStr);
 			tempBw.write(memberInformationStr);
 			tempBw.flush();
 

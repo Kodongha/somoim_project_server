@@ -148,8 +148,6 @@ public class LoginrProcess {
 		return "";
 	}
 
-
-
 	public Object getMyidForPassword(Object obj) {
 		// TODO Auto-generated method stub
 		MemberVO requestMemberVO = (MemberVO)obj;
@@ -272,7 +270,6 @@ public class LoginrProcess {
 
 			memberInformationStr += "¡×¡×" + memberVO.getProfilePhotoPath();
 
-			System.out.println("memberInformationStr::::::::::::" + memberInformationStr);
 			tempBw.write(memberInformationStr);
 			tempBw.flush();
 

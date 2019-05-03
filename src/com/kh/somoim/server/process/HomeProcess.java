@@ -63,7 +63,6 @@ public class HomeProcess {
 				}
 				for(String memberNumber : temp2StringArray) {
 					if(userNumber == Integer.parseInt(memberNumber)) {
-						System.out.println("1");
 						myClubFlag = true;
 					}
 					memberList.add(Integer.parseInt(memberNumber));
