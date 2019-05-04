@@ -35,6 +35,8 @@ public class ClubProcess {
 		ClubVO requestClubVO = (ClubVO)obj;
 
 		ArrayList<Integer> requestMemberList = requestClubVO.getMembersNumber();
+		System.out.println("requestMemberList::::"+requestMemberList);
+		int masterNumber = requestClubVO.getClupMasterNumber();
 		ArrayList<MemberVO> resoponseMemberList = new ArrayList<MemberVO>();
 		try {
 			br = new BufferedReader(new FileReader("member.txt"));
@@ -43,6 +45,7 @@ public class ClubProcess {
 			ArrayList<String> favoriteList = new ArrayList<String>();
 
 			String line = "";
+			
 			while((line = br.readLine()) != null) {
 				MemberVO memberVO = new MemberVO();
 
@@ -64,7 +67,7 @@ public class ClubProcess {
 				}
 				memberVO.setFavorite(favoriteList);
 				memberVO.setProfilePhotoPath(tempStringArray[11]);
-
+				
 				for(Integer userNumber : requestMemberList) {
 					if(userNumber.equals(Integer.valueOf(tempStringArray[0]))) {
 						resoponseMemberList.add(memberVO);
@@ -72,6 +75,9 @@ public class ClubProcess {
 				}
 				favoriteList.clear();
 			}
+			
+			System.out.println("resoponseMemberList::::"+resoponseMemberList);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,7 +250,7 @@ public class ClubProcess {
 				String [] tempDay = tempDate[0].split("[.]");
 				String [] tempTime = tempDate[1].split("[:]");
 				Date writeDate = new Date(new GregorianCalendar(Integer.parseInt(tempDay[0])
-						, Integer.parseInt(tempDay[1])
+						, Integer.parseInt(tempDay[1]) - 1
 						, Integer.parseInt(tempDay[2])
 						, Integer.parseInt(tempTime[0])
 						, Integer.parseInt(tempTime[1])
@@ -438,7 +444,7 @@ public class ClubProcess {
 				}
 				clubVO.setMembersNumber(memberList);
 				
-				if(clubVO.getClubNumber() == requestMemberNumber) {
+				if(clubVO.getClubNumber() == requestClubNumber) {
 					resultClub = clubVO;
 					continue;
 				}
@@ -481,19 +487,20 @@ public class ClubProcess {
 			
 			System.out.println("clubInserString::::"+clubInserString);
 			
-			tempBw = new BufferedWriter(new FileWriter("temp_club.txt", true));
-			tempBw.write(clubInserString);
 			tempBw.flush();
 			
 			tempBr = new BufferedReader(new FileReader("temp_club.txt"));
 			
 			bw = new BufferedWriter(new FileWriter("club.txt"));
 			while((line = tempBr.readLine()) != null) {
-				if(line.equals("")) {
-					break;
-				}
-				bw.write(line + System.getProperty("line.separator"));
+				
+				bw.write(line);
+				bw.newLine();
 			}
+			bw.flush();
+			
+			bw = new BufferedWriter(new FileWriter("club.txt", true));
+			bw.write(clubInserString);
 			bw.flush();
 			
 		} catch (FileNotFoundException | EOFException e) {
@@ -540,6 +547,9 @@ public class ClubProcess {
 				int requestMemberNumber = memberVO.getUserNumber();
 				ClubVO resultClub = null;
 				
+				System.out.println("requestClubNumber::" + requestClubNumber);
+				System.out.println("requestMemberNumber::" + requestMemberNumber);
+				
 				try {
 					
 					br = new BufferedReader(new FileReader("club.txt"));
@@ -584,7 +594,11 @@ public class ClubProcess {
 						}
 						clubVO.setMembersNumber(memberList);
 						
-						if(clubVO.getClubNumber() == requestMemberNumber) {
+						System.out.println("clubVO.getClubNumber():::"+clubVO.getClubNumber());
+						if(clubVO.getClubNumber() == requestClubNumber) {
+							
+							System.out.println("in¿Ã¥Ÿ!!!!");
+							
 							resultClub = clubVO;
 							continue;
 						}
@@ -624,7 +638,6 @@ public class ClubProcess {
 					System.out.println("clubInserString::::"+clubInserString);
 					
 					tempBw = new BufferedWriter(new FileWriter("temp_club.txt", true));
-					tempBw.write(clubInserString);
 					tempBw.flush();
 					
 					tempBr = new BufferedReader(new FileReader("temp_club.txt"));
@@ -636,6 +649,10 @@ public class ClubProcess {
 						}
 						bw.write(line + System.getProperty("line.separator"));
 					}
+					bw.flush();
+					
+					bw = new BufferedWriter(new FileWriter("club.txt", true));
+					bw.write(clubInserString);
 					bw.flush();
 					
 				} catch (FileNotFoundException | EOFException e) {
