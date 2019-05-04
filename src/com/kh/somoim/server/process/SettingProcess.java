@@ -68,7 +68,6 @@ public class SettingProcess {
 			
 			memberInformationStr += "」」" + requestMemberVO.getProfilePhotoPath();
 			
-			tempBw.write(memberInformationStr);
 			tempBw.flush();
 
 			bw = new BufferedWriter(new FileWriter("member.txt"));
@@ -76,6 +75,12 @@ public class SettingProcess {
 				bw.write(line + System.getProperty("line.separator"));
 			}
 			bw.flush();
+			
+			bw = new BufferedWriter(new FileWriter("member.txt", true));
+			
+			bw.write(memberInformationStr);
+			bw.flush();
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,14 +222,19 @@ public class SettingProcess {
 			memberInformationStr += "」」" + requestMemberVO.getProfilePhotoPath();
 			
 			System.out.println("memberInformationStr ::: " + memberInformationStr);
-			tempBw.write(memberInformationStr);
 			tempBw.flush();
 
 			bw = new BufferedWriter(new FileWriter("member.txt"));
 			while((line = tempBr.readLine()) != null) {
 				bw.write(line + System.getProperty("line.separator"));
 			}
+			
 			bw.flush();
+
+			bw = new BufferedWriter(new FileWriter("member.txt", true));
+			bw.write(memberInformationStr);
+			bw.flush();
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
